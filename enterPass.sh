@@ -11,9 +11,9 @@ spawn /usr/bin/ssh -l $user $ip
 expect {
 	-re ".*Are you sure you want to continue connecting.*" {
 		send "yes\n"
-		exp_continue # Restart expect block.
+# Restart expect block.
+		exp_continue
 	}
-
 	
 	-re ".*assword:" {
 		send $password
