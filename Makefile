@@ -1,5 +1,5 @@
 install:
-	echo ${PWD}"/scripts.sh" > auto-ssh
+	echo ${PWD}'/scripts.sh $$@' > auto-ssh
 	chmod +x auto-ssh
 	mv ./auto-ssh ~/.local/bin/
 	echo "Install complete!!!"

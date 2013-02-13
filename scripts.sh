@@ -5,7 +5,7 @@ VERSION="0.1.0"
 DIRNAME=$(dirname $0)
 AUTO_SSH_CONFIG=$DIRNAME"/config"
 EXPECT_SCRIPT=$DIRNAME"/enterPass.sh"
-echo "Path of config file: "$AUTO_SSH_CONFIG
+# echo "Path of config file: "$AUTO_SSH_CONFIG
 # ./config is the file which contains all the connection setting values for all machines.
 menu(){
 	echo "Following machines are available for connection:";
@@ -20,7 +20,6 @@ menu(){
 	
 	# Store the total number of configurations given in the file.
 	connections=${#settings[@]};
-	echo ${settings[2]};
 	
 	# Display all the setting values from the config file.
 	grep -ine ".*" $AUTO_SSH_CONFIG | cut -d " " -f 1;
@@ -76,12 +75,12 @@ remove(){
 init_app(){
 	n_args=$#
 	s_args=$@
-	echo "Total arguments: $n_args"
-	echo "Value of args: $s_args"
+	# echo "Total arguments: $n_args"
+	# echo "Value of args: $s_args"
 	if [ $n_args -lt 1 ]; then
 		#Print Menu
 		menu;
-		echo "Arguments: $# and $@"
+		# echo "Arguments: $# and $@"
 		#Prompt user for input.
 		read -p "Enter your choice[number]: " connect
 		#Connect to the specified machine.
@@ -100,7 +99,7 @@ init_app(){
 			help
 			;;
 		esac
-		echo "Finished config block"
+		# echo "Finished config block"
 	fi
 }
 
