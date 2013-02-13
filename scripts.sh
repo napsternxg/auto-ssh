@@ -1,4 +1,7 @@
 # Script to connec to ssh clients.
+GIT_REPO="https://github.com/napsternxg/auto-ssh"
+AUTHOR="Shubhanshu Mishra [http://github.com/napsternxg]"
+VERSION="0.1.0"
 DIRNAME=$(dirname $0)
 AUTO_SSH_CONFIG=$DIRNAME"/config"
 EXPECT_SCRIPT=$DIRNAME"/enterPass.sh"
@@ -35,6 +38,19 @@ input(){
 	$EXPECT_SCRIPT $ip $user $passwd
 }
 
+help(){
+	File=$DIRNAME"/HELP.md"
+	while read -r line ; do
+	    while [[ "$line" =~ (\$\{[a-zA-Z_][a-zA-Z_0-9]*\}) ]] ; do
+		LHS=${BASH_REMATCH[1]}
+		RHS="$(eval echo "\"$LHS\"")"
+		line=${line//$LHS/$RHS}
+	    done
+	    echo -e "\e[00;34m$line\e[00m"
+	done < $File
+	return
+}
+
 config(){
 	
 	read -p "Connection Name: " connection
@@ -46,6 +62,14 @@ config(){
 	fi
 	echo "$connection ssh $user $passwd $ip" >> $AUTO_SSH_CONFIG
 	echo "Configured $connection in $AUTO_SSH_CONFIG."
+	return
+}
+
+remove(){
+	connection=$1
+	echo "Removing setting for connection $connection."
+	echo "$(grep -v $connection $AUTO_SSH_CONFIG)" > $AUTO_SSH_CONFIG
+	echo "Removed: $connection"
 	return
 }
 
@@ -63,13 +87,17 @@ init_app(){
 		#Connect to the specified machine.
 		input $connect
 	else
-		case ${s_args[0]} in
+		case $1 in
 		"config")
 			echo "Configure a new connection:\n"
 			config
 			;;
 		"remove")
 			echo "Removing setting"
+			remove $2
+			;;
+		"help")
+			help
 			;;
 		esac
 		echo "Finished config block"

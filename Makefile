@@ -4,3 +4,4 @@ install:
 	mv ./auto-ssh ~/.local/bin/
 	echo "Install complete!!!"
 	echo "Run using: auto-ssh"
+	touch config
